@@ -29,7 +29,7 @@ class BaseInfo(models.Model):
     gender = models.CharField(max_length=20, choices=SEX_CHOICES)
     phone = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
-    address = models.CharField(max_length=200, default = None)
+    address = models.CharField(max_length=200)
 
     class Meta:
         abstract = True
@@ -43,8 +43,6 @@ class Staff(BaseInfo):
         return self.name
 
 class Patient(BaseInfo):
-    laboratory_record = models.FileField(upload_to='laboratory_record/', default=None)
-    dental_record = models.FileField(upload_to='dental_record/', default=None)
     registered_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

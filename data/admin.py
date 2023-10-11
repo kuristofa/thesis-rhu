@@ -8,7 +8,7 @@ class StaffAdmin(admin.ModelAdmin):
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ("name", "gender", "phone", "email", "registered_date", "address", "laboratory_record", "dental_record")
+    list_display = ("name", "gender", "phone", "email", "registered_date", "address")
 
 @admin.register(Drug)
 class DrugAdmin(admin.ModelAdmin):
