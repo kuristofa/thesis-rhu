@@ -139,3 +139,6 @@ LOGOUT_REDIRECT_URL = "/login/"
 LOGIN_REDIRECT_URL = "/index/"
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+STATICFILES_DIRS = [BASE_DIR / "static"] # new
+STATIC_ROOT = BASE_DIR / "staticfiles" # new
