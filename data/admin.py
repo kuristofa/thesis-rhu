@@ -16,7 +16,7 @@ class DrugAdmin(admin.ModelAdmin):
 
 @admin.register(Prescription)
 class PrescriptionAdmin(admin.ModelAdmin):
-    list_display = ("patient", "prescribed_by", "prescribed_drug", "prescribed_on", "prescription_notes")
+    list_display = ("patient", "prescribed_on", "prescription_notes")
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):

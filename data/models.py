@@ -71,8 +71,6 @@ class Drug(models.Model):
 
 class Prescription(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    prescribed_by = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    prescribed_drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
     prescribed_on = models.DateTimeField(default=timezone.now)
     prescription_notes = models.TextField()
 

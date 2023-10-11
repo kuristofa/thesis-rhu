@@ -35,8 +35,8 @@
         {% for health_history in health_histories %}
            <tr>
                <td>{{ health_history.patient }}</td>
-               <td>{{ health_history.history }}</td>
                <td>{{ health_history.diagnosis }}</td>
+               <td>{{ health_history.history }}</td>
                <td><a href="{% url 'edit_health_history' health_history.id %}" class="btn btn-primary">Edit</a></td>
                <td><a href="#" class="btn btn-danger">Delete</a></td>
            </tr>

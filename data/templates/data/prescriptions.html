@@ -25,7 +25,6 @@
     <thead class="border-bottom font-weight-bold">
         <tr>
             <td>Patient Name</td>
-            <td>Prescribed Drug</td>
             <td>Edit</td>
             <td>Delete</td>
             <td>Details</td>
@@ -35,8 +34,7 @@
         {% for prescription in prescriptions %}
            <tr>
                <td>{{ prescription.patient }}</td>
-               <td>{{ prescription.prescribed_drug }}</td>
-
+                <td>{{ prescription.prescription_notes }}</td>
                <td><a href="{% url 'edit_prescription' prescription.id %}" class="btn btn-success">Edit</a></td>
                <td><a href="#" class="btn btn-danger">Delete</a></td>
                <td><a href="{% url 'prescription_details' prescription.id %}" class="btn btn-primary">Details</a></td>
