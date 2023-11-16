@@ -1,17 +1,61 @@
 from django.shortcuts import render
-from . models import *
-from . forms import *
-from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
-
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.urls import reverse_lazy
+from .models import *
+from .forms import *
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 
 # Create your views here.
-@login_required(login_url="/login/")
-def index(request):
-    return render(request, "index.html")
+
+def homepage(request):
+    return render(request, 'homepage.html')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            messages.error(request, 'Unrecognized user role or invalid credentials.')
+
+        else:
+            # Handle invalid login credentials
+            messages.error(request, 'Invalid username or password. Please try again.')
+
+    return render(request, 'login.html')
+
+@login_required
+def dashboard(request):
+    # Get data for the dashboard
+    staff_count = Staff.objects.all().count()
+    patient_count = Patient.objects.all().count()
+    visit_count = PatientVisit.objects.all().count()
+    drug_count = Drug.objects.all().count()
+    appointment_count = Appointment.objects.all().count()
+    prescription_count = Prescription.objects.all().count()
+    history_count = HealthHistory.objects.all().count()
+    feedback_count = PatientFeedback.objects.all().count()
+
+    context = {
+        'staff_count': staff_count,
+        'patient_count': patient_count,
+        'visit_count': visit_count,
+        'drug_count': drug_count,
+        'appointment_count': appointment_count,
+        'prescription_count': prescription_count,
+        'history_count': history_count,
+        'feedback_count': feedback_count,
+    }
+
+    return render(request, 'dashboard.html', context)
 
 @permission_required("data.view_staff")
 def staffs(request):
@@ -97,7 +141,7 @@ def add_visit(request, id=0):
             form = VisitForm()
         else:
             visit = PatientVisit.objects.get(pk=id)
-            form = PatientForm(instance=visit)
+            form = VisitForm(instance=visit)
         return render(request, "data/add_visit.html", {"form": form})
     else:
         if id == 0:
@@ -255,23 +299,6 @@ def feedback_details(request, id):
     }
     return render(request, "data/feedback_details.html", context)
 
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
-            auth.login(request, user)
-            return redirect("index")
-        else:
-            messages.info(request, 'invalid creditials')
-            return redirect('login')
-    else:
-        return render(request, 'login.html')
-
 def logout(request):
     auth.logout(request)
-    return redirect("login")
+    return redirect("homepage")

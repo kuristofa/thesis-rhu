@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rural Health Unit</title>
+    <link
+      rel="stylesheet"
+      href="C:\Users\crmes\Desktop\Files\Code\Thesis\static\css\slider.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style></style>
+  </head>
+
+  <body class="font-sans bg-white">
+    <!-- Navigation Bar -->
+    <nav class="bg-green-500">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-white text-3xl font-semibold">Rural Health Unit</h1>
+        <!-- Add navigation links as needed -->
+        <a href="#">
+          <button
+            type="button"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          >
+            Login
+          </button>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="mt-10">
+      <div class="mx-auto text-center text-green">
+        <h2 class="text-4xl font-bold mb-2">
+          Providing Quality Healthcare in Rural Areas
+        </h2>
+        <p class="text-lg">
+          Your health is our priority. We are committed to serving the
+          community.
+        </p>
+      </div>
+    </header>
+
+    <section class="container" style="overflow-x: hidden">
+      <div class="slider-wrapper">
+        <div class="slider" id="slider">
+          <div class="slide">
+            <img src="static/img/slider1.jpg" />
+          </div>
+          <div class="slide">
+            <img src="static/img/slider2.jpg" />
+          </div>
+          <div class="slide">
+            <img src="static/img/slider3.jpg" />
+          </div>
+        </div>
+        <div class="slider-nav">
+          <a href="#" onclick="changeSlide(0)"></a>
+          <a href="#" onclick="changeSlide(1)"></a>
+          <a href="#" onclick="changeSlide(2)"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16">
+      <div class="container mx-auto">
+        <h2 class="text-3xl font-semibold mb-8">About Us</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+          vehicula velit ac accumsan posuere. Quisque id tellus euismod,
+          fermentum mauris vel, accumsan odio. Ut suscipit, nulla eu aliquet
+          ullamcorper, sem quam fringilla urna, a ultrices mi justo vel dui.
+        </p>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-gray-100 py-16">
+      <div class="container mx-auto">
+        <h2 class="text-3xl font-semibold mb-8">Our Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Service Card 1 -->
+          <div class="bg-white p-6 rounded-md shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Primary Care</h3>
+            <p class="text-gray-700">
+              Comprehensive primary care services for individuals and families.
+            </p>
+          </div>
+
+          <!-- Service Card 2 -->
+          <div class="bg-white p-6 rounded-md shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Health Education</h3>
+            <p class="text-gray-700">
+              Educating the community on health and wellness for a healthier
+              lifestyle.
+            </p>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="bg-white p-6 rounded-md shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Preventive Care</h3>
+            <p class="text-gray-700">
+              Focus on preventive measures to maintain overall health and
+              well-being.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16">
+      <div class="container mx-auto">
+        <h2 class="text-3xl font-semibold mb-8">Contact Us</h2>
+        <p class="text-gray-700 leading-relaxed mb-6">
+          Have questions or need assistance? Feel free to contact us.
+        </p>
+        <div class="flex items-center space-x-4">
+          <a href="#" class="text-blue-500">Contact Form</a>
+          <span class="text-gray-500">or</span>
+          <a href="#" class="text-blue-500">Call Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2023 Rural Health Unit. All rights reserved.</p>
+      </div>
+    </footer>
+    <script>
+      let currentSlide = 0;
+      const totalSlides = document.querySelectorAll(".slider .slide").length;
+      const slider = document.querySelector(".slider");
+
+      function updateSlider() {
+        const newTransformValue = -currentSlide * 100 + "%";
+
+        slider.style.transform = `translateX(${newTransformValue})`;
+
+        // Remove 'active' class from all slides
+        document.querySelectorAll(".slider .slide").forEach((slide, index) => {
+          slide.classList.remove("active");
+        });
+
+        // Add 'active' class to the current slide for the fade-in effect
+        document
+          .querySelector(`.slider .slide:nth-child(${currentSlide + 1})`)
+          .classList.add("active");
+      }
+
+      function startAutoSlide() {
+        setInterval(() => {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          updateSlider();
+        }, 5000); // Change slide every 5 seconds (adjust as needed)
+      }
+
+      function changeSlide(slideNumber) {
+        currentSlide = slideNumber;
+        updateSlider();
+      }
+
+      // Set initial slide position
+      updateSlider();
+
+      // Start automatic sliding on page load
+      startAutoSlide();
+    </script>
+  </body>
+</html>

@@ -1,26 +1,22 @@
 from django.contrib import admin
-from . models import *
+from .models import *
 
 # Register your models here.
-@admin.register(Staff)
-class StaffAdmin(admin.ModelAdmin):
-    list_display = ("name", "gender", "phone", "position", "shift", "employment_date")
-
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ("name", "gender", "phone", "email", "registered_date", "address")
+    list_display = ("name", "gender", "phone", "address", "dental_report", "laboratory_report", "health_history", "diagnosis", "registered_date")
 
-@admin.register(Drug)
+@admin.register(MedicineSupply)
 class DrugAdmin(admin.ModelAdmin):
-    list_display = ("drug_code", "drug_name", "manufacturer", "supply_unit", "unit_price", "total_price", "date_recorded")
+    list_display = ("drug_code", "drug_name", "supply_unit", "date_recorded")
 
 @admin.register(Prescription)
 class PrescriptionAdmin(admin.ModelAdmin):
-    list_display = ("patient", "prescribed_on", "prescription_notes")
+    list_display = ("patient", "prescribed_on", "prescribed_medicine", "prescription_notes", "prescribed_by")
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("name", "gender", "description", "date_requested", "approved")
+    list_display = ("name", "gender", "description", "date_requested")
 
 @admin.register(PatientVisit)
 class PatientVisitAdmin(admin.ModelAdmin):
@@ -32,8 +28,11 @@ class PatientFeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(HealthHistory)
 class HealthHistoryAdmin(admin.ModelAdmin):
-    list_display = ("patient", "history", "diagnosis")
+    list_display = ("patient", "history_checkup", "diagnosis")
 
+@admin.register(Doctor)
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ("name", "phone", "address")
 
 admin.site.site_title = "MEXICO RURAL HEALTH UNIT"
 admin.site.site_header = "MEXICO RURAL HEALTH UNIT"

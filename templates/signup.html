@@ -1,0 +1,307 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>SIGN UP | Mexico RHU</title>
+    <link rel="stylesheet" href="{%static "main.css"%}" />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-image: linear-gradient(#9ef9d8, #caf6bf);
+    }
+
+    .login {
+      position: absolute;
+      max-width: 400px;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 101;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 15px;
+    }
+
+    .login h2 {
+      font-size: 35px;
+      color: black;
+      text-align: center;
+      text-rendering: optimizeLegibility;
+    }
+
+    .input_box {
+      position: relative;
+      margin-top: 30px;
+      width: 100%;
+      height: 40px;
+    }
+
+    .input_box input {
+      height: 100%;
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 0 30px;
+      color: #333;
+      transition: all 0.5s ease;
+      border-bottom: 3px solid #aaaaaa;
+    }
+
+    .input_box input:focus {
+      border-color: #9ef9d8;
+    }
+
+    .input_box i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      transition: all 0.5s ease;
+    }
+
+    .input_box i.user,
+    .input_box i.password {
+      left: 0;
+    }
+
+    .input_box input:focus ~ i.user,
+    .input_box input:focus ~ i.password {
+      color: #9ef9d8;
+    }
+
+    .input_box i.pw_hide {
+      right: 0;
+      font-size: 18px;
+    }
+
+    .option_field {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login a {
+      color: blue;
+      font-size: 17px;
+    }
+
+    .login a:hover {
+      text-decoration: underline;
+    }
+
+    .login button {
+      background: #55bd6b;
+      margin-top: 30px;
+      width: 100%;
+      padding: 10px 0;
+      border-radius: 15px;
+      border: transparent;
+    }
+
+    .login button:hover {
+      background: rgb(168, 255, 187);
+    }
+    .input_box label {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: -5px; /* Add space between label and dropdown */
+      display: block;
+    }
+
+    .input_box select {
+      margin-top: 5px; /* Adjust as needed */
+      width: 100%; /* Maximize space for the dropdown menu */
+      height: 40px; /* Set the desired height */
+      border: none;
+      outline: none;
+      padding: 0 10px; /* Adjust as needed */
+      color: #333;
+      transition: all 0.5s ease;
+      border-bottom: 3px solid #aaaaaa;
+      text-align: center;
+    }
+
+    .input_box select:focus {
+      border-color: #9ef9d8;
+    }
+
+    .input_box select ~ i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      transition: all 0.5s ease;
+      right: 10px; /* Adjust as needed */
+    }
+
+    .input_box select:focus ~ i {
+      color: #9ef9d8;
+    }
+  </style>
+  <body>
+    <section class="container">
+      <div class="login">
+        {% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    <strong>Error:</strong> Please check the form for errors.
+    <ul>
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+        <form action="{% url 'signup' %}" class="signup-form" method="POST">
+          {% csrf_token %}
+          <h2>Sign Up</h2>
+
+          <div class="input_box">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              required
+            />
+            <i class="uil uil-user user"></i>
+          </div>
+
+          <div class="input_box">
+            <input
+              type="text"
+              id="address"
+              name="address"
+              placeholder="Address"
+              required
+            />
+            <i class="uil uil-home user"></i>
+          </div>
+
+          <div class="input_box">
+            <input
+              type="text"
+              id="contact"
+              name="contact"
+              placeholder="Contact Number"
+              required
+            />
+            <i class="uil uil-phone user"></i>
+          </div>
+
+          <div class="input_box">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              required
+            />
+            <i class="uil uil-user-circle user"></i>
+          </div>
+
+          <div class="input_box">
+            <input
+                type="password"
+                id="password"
+                name="password1"
+                placeholder="Password"
+                required
+            />
+            <i class="uil uil-lock password"></i>
+            <i
+                class="uil uil-eye-slash pw_hide password-toggle"
+                onclick="togglePassword(this, 'password')"
+            ></i>
+            <div class="error-container"></div>  <!-- Container for password errors -->
+        </div>
+        
+        <div class="input_box">
+            <input
+                type="password"
+                id="password-confirm"
+                name="password2"
+                placeholder="Confirm Password"
+                required
+            />
+            <i class="uil uil-lock password"></i>
+            <i
+                class="uil uil-eye-slash pw_hide password-toggle"
+                onclick="togglePassword(this, 'password-confirm')"
+            ></i>
+            <div class="error-container"></div>  <!-- Container for password errors -->
+        </div>
+
+          <div class="input_box">
+            <label for="role">Role:</label>
+            <select name="role" id="role" required>
+              <option value="Patient">Patient</option>
+              <option value="Nurse">Nurse</option>
+              <option value="Doctor">Doctor</option>
+              <option value="HealthWorker">Health Worker</option>
+              <!-- Add more options for other roles -->
+            </select>
+            <i class="uil uil-chevron-down"></i>
+          </div>
+          <button class="button" type="submit">Sign Up</button>
+        </form>
+      </div>
+    </section>
+  </body>
+  <script>
+    function togglePassword(clickedElement, targetInputId) {
+      const passwordInput = document.getElementById(targetInputId);
+      const errorContainer = passwordInput.nextElementSibling;  // Assuming the error container is a sibling element
+  
+      clickedElement.classList.toggle("uil-eye-slash");
+      clickedElement.classList.toggle("uil-eye");
+  
+      if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+      } else {
+          passwordInput.type = "password";
+      }
+  
+      // Clear previous error messages when toggling the password visibility
+      errorContainer.innerHTML = "";
+  }
+  
+  // Add this function to display password error messages
+  function displayPasswordError(targetInputId, errorMessage) {
+      const passwordInput = document.getElementById(targetInputId);
+      const errorContainer = passwordInput.nextElementSibling;  // Assuming the error container is a sibling element
+  
+      // Display the error message
+      errorContainer.innerHTML = `<ul class="errorlist"><li>${errorMessage}</li></ul>`;
+  }
+  </script>
+</html>

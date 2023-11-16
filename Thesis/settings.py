@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Manila'
 
 USE_I18N = True
 
@@ -131,14 +131,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
 
-CORS_ALLOWED_ORRINGS = [
+CORS_ALLOWED_ORIGINS = [
     "https://localhost:3000",
 ]
 
-LOGOUT_REDIRECT_URL = "/login/"
-LOGIN_REDIRECT_URL = "/index/"
+LOGOUT_REDIRECT_URL = "/home/"
+LOGIN_REDIRECT_URL = "/dashboard/"
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-
-STATICFILES_DIRS = [BASE_DIR / "static"] # new
-STATIC_ROOT = BASE_DIR / "staticfiles" # new
