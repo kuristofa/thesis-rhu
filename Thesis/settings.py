@@ -131,11 +131,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORRINGS = [
     "https://localhost:3000",
 ]
 
-LOGOUT_REDIRECT_URL = "/home/"
+LOGOUT_REDIRECT_URL = "/homepage/"
 LOGIN_REDIRECT_URL = "/dashboard/"
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+STATICFILES_DIRS = [BASE_DIR / "static"] # new
+STATIC_ROOT = BASE_DIR / "staticfiles" # new

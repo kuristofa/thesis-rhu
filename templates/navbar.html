@@ -12,7 +12,7 @@
     left: 0;
     height: 100%;
     width: 270px; /* Set the width to your desired value */
-    background: #10b981;
+    background: #343a40;
     padding: 6px 14px;
     white-space: nowrap;
     transition: all 0.5s ease;
@@ -147,12 +147,19 @@
         <li>
           <a href="{% url 'drugs' %}">
             <i class="bx bxs-capsule"></i>
-            <span class="links_name">Drug Medicine Supply</span>
+            <span class="links_name">Medicine Supply</span>
           </a>
         </li>
 
         <li>
-          <a href="">
+          <a href="{% url 'order_form' %}">
+            <i class='bx bx-cart-add'></i>
+            <span class="links_name">Order Form</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="http://127.0.0.1:8000/admin/">
             <i class="bx bx-cog"></i>
             <span class="links_name">Settings</span>
           </a>

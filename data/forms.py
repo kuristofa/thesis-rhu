@@ -6,6 +6,10 @@ class PatientForm(forms.ModelForm):
         model = Patient
         fields = ('__all__')
 
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = ('__all__')
 
 class VisitForm(forms.ModelForm):
     class Meta:
@@ -17,9 +21,9 @@ class FeedbackForm(forms.ModelForm):
         model = PatientFeedback
         fields = ('__all__')
 
-class MedicineSupplyForm(forms.ModelForm):
+class DrugForm(forms.ModelForm):
     class Meta:
-        model = MedicineSupply
+        model = Drug
         fields = ('__all__')
 
 class AppointmentForm(forms.ModelForm):
@@ -37,3 +41,7 @@ class HistoryForm(forms.ModelForm):
         model = HealthHistory
         fields = ('__all__')
 
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('__all__')

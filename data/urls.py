@@ -3,12 +3,8 @@ from . import views
 
 urlpatterns =  [
     #view
-    path('', views.homepage, name='homepage'),
-    
-    #dashboards
-    path("dashboard/", views.dashboard, name="admin_dashboard"),
-
-
+    path("", views.home, name="homepage"),
+    path("dashboard", views.dashboard, name="dashboard"),
     path("patients/", views.patients, name="patients"),
     path("staff/", views.staffs, name="staff"),
     path("prescriptions/", views.prescriptions, name="prescriptions"),
@@ -17,10 +13,14 @@ urlpatterns =  [
     path("health_histories/", views.health_histories, name="health_histories"),
     path("appointments/", views.appointments, name="appointments"),
     path("visits/", views.visits, name="visits"),
+    path("order_form/", views.order_form, name="order_form"),
+    path("add_order/", views.add_order, name="add_order"),
+
 
     #authenticaiton
-    path("login/", views.login_view, name="login"),
+    path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
+
     #data insert
     path("add_appointment/", views.add_appointment, name="add_appointment"),
     path("add_drug/", views.add_drug, name="add_drug"),

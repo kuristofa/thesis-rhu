@@ -1,61 +1,56 @@
 from django.shortcuts import render
+from . models import *
+from . forms import *
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.db.models import Count
+from collections import defaultdict
 from django.contrib.auth.models import User, auth
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .models import *
-from .forms import *
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 
 # Create your views here.
-
-def homepage(request):
+def home(request):
     return render(request, 'homepage.html')
 
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            messages.error(request, 'Unrecognized user role or invalid credentials.')
-
-        else:
-            # Handle invalid login credentials
-            messages.error(request, 'Invalid username or password. Please try again.')
-
-    return render(request, 'login.html')
-
-@login_required
+@login_required(login_url="/login/")
 def dashboard(request):
-    # Get data for the dashboard
-    staff_count = Staff.objects.all().count()
-    patient_count = Patient.objects.all().count()
-    visit_count = PatientVisit.objects.all().count()
-    drug_count = Drug.objects.all().count()
-    appointment_count = Appointment.objects.all().count()
-    prescription_count = Prescription.objects.all().count()
-    history_count = HealthHistory.objects.all().count()
-    feedback_count = PatientFeedback.objects.all().count()
+    total_patients = Patient.objects.count()
+    total_staff = Staff.objects.count()
+    total_patients_visit = PatientVisit.objects.count()
+    low_supply_drugs = Drug.objects.filter(supply_unit__lt=15)
 
-    context = {
-        'staff_count': staff_count,
-        'patient_count': patient_count,
-        'visit_count': visit_count,
-        'drug_count': drug_count,
-        'appointment_count': appointment_count,
-        'prescription_count': prescription_count,
-        'history_count': history_count,
-        'feedback_count': feedback_count,
-    }
+    patients_per_barangay = defaultdict(int)
+    all_patients = Patient.objects.all()
+    for patient in all_patients:
+        barangay = patient.get_barangay()
+        if barangay:
+            address_parts = patient.address.split(',')
 
-    return render(request, 'dashboard.html', context)
+            for part in reversed(address_parts):
+                barangay = part.strip().title()
+                if barangay and barangay != 'Pampanga' and barangay != 'Mexico':
+                    patients_per_barangay[barangay] += 1
+                    break
+                        
+
+    patients_per_barangay = [
+        {'barangay': barangay, 'count': count}
+        for barangay, count in patients_per_barangay.items()
+    ]
+
+    sorted_patients_per_barangay = sorted(
+        patients_per_barangay, 
+        key=lambda x: (-x['count'], x['barangay'])
+        )
+
+    return render(request, 'dashboard.html', {
+        'total_patients': total_patients,
+        'total_staff': total_staff,
+        'total_patients_visit': total_patients_visit,
+        'low_supply_drugs': low_supply_drugs,
+        'patients_per_barangay': sorted_patients_per_barangay,
+    })
 
 @permission_required("data.view_staff")
 def staffs(request):
@@ -134,6 +129,28 @@ def visits(request):
     }
     return render(request, "data/visits.html", context)
 
+def order_form(request):
+    orders = Order.objects.all()  # Fetch all orders
+    return render(request, "data/order_form.html", {"orders": orders})
+
+def add_order(request, id=0):
+    if request.method == "GET":
+        if id == 0:
+            form = OrderForm()
+        else:
+            order = OrderForm.objects.get(pk=id)
+            form = OrderForm(instance=order)
+        return render(request, "data/add_order.html", {"form": form})
+    else:
+        if id == 0:
+            form = OrderForm(request.POST)
+        else:
+            order = OrderForm.objects.get(pk=id)
+            form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+        return redirect('order_form')
+
 @permission_required("data.add_patientvisit")
 def add_visit(request, id=0):
     if request.method == "GET":
@@ -141,7 +158,7 @@ def add_visit(request, id=0):
             form = VisitForm()
         else:
             visit = PatientVisit.objects.get(pk=id)
-            form = VisitForm(instance=visit)
+            form = PatientForm(instance=visit)
         return render(request, "data/add_visit.html", {"form": form})
     else:
         if id == 0:
@@ -298,6 +315,23 @@ def feedback_details(request, id):
         "feedback": feedback
     }
     return render(request, "data/feedback_details.html", context)
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect("dashboard")
+        else:
+            messages.info(request, 'invalid creditials')
+            return redirect('login')
+    else:
+        return render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)

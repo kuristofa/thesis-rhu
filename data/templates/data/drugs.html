@@ -6,10 +6,10 @@
 <div class="container" style="background-color: rgb(231, 221, 221);">
        <div class="row mx-auto">
         <div class="col-4 mt-5 mx-auto">
-            <h1>Medicinal Supply</h1>
+            <h1>Medicine Supply</h1>
         </div>
         <div class="col-4 mt-5 mx-auto">
-            <a href="{% url 'add_drug' %}" class="btn btn-primary">Add Medicinal Supply</a>
+            <a href="{% url 'add_drug' %}" class="btn btn-primary">Add Medicine Supply</a>
         </div>
         <div class="col-4 mt-5 mx-auto">
             <a href="/" class="btn btn-secondary">Back Home</a>
@@ -26,7 +26,8 @@
 <table class="table table-borderless">
     <thead class="border-bottom font-weight-bold">
         <tr>
-            <td>Medicine Drug Name</td>
+            <td>Medicine Supply</td>
+            <td>Supply Count</td>
             <td>Edit</td>
             <td>Delete</td>
             <td>Details</td>
@@ -36,7 +37,7 @@
         {% for drug in drugs %}
            <tr>
                <td>{{ drug.drug_name }}</td>
-            
+               <td>{{ drug.supply_unit }}</td>
                <td><a href="{% url 'edit_drug' drug.id %}" class="btn btn-success">Edit</a></td>
                <td><a href="#" class="btn btn-danger">Delete</a></td>
                <td><a href="{% url 'drug_details' drug.id %}" class="btn btn-primary">Details</a></td>
